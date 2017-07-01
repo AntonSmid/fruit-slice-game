@@ -4,6 +4,7 @@ html {
     background: -webkit-radial-gradient(circle, #fff, #ccc);
     background: -o-radial-gradient(circle, #fff, #ccc);
     background: -moz-radial-gradient(circle, #fff, #ccc);
+    font-family: helvetica, sans-serif;
 }
 
 #container {
@@ -114,7 +115,7 @@ html {
 }
 
 #startreset {
-    width: 80px;
+    width: 84px;
     padding: 10px;
     background-color: rgba(255, 0, 0, 0.5);
     margin: 0 auto;
