@@ -1,6 +1,9 @@
 var playing = false;
 var score;
 var trialsleft;
+var step;
+var action; // used for setInterval
+var fruits = ["apple", "banana", "cherries", "grapes", "mango", "orange", "peach", "pear", "watermelon"];
 
 $(function(){
     // click on start reset button
@@ -21,8 +24,15 @@ $(function(){
         $("#trialsleft").show();
         trialsleft = 3;
         addHearts();
-        
             
+        // hide game over box
+        $("#gameOver").hide();
+        
+        // change button text to reset game
+        $("#startreset").html("Reset Game");
+            
+        // start sending fruits
+        startAction();    
             
         }
     })
@@ -33,9 +43,73 @@ $(function(){
 
 
 function addHearts() {
+    $("#trialsleft").empty();
     for (var i = 0; i < trialsleft; i++) {
-            $("#trialsleft").append("  X  ");
+            $("#trialsleft").append("<img class ='life' src='images/heart.png'>");
     }
+}
+
+// start sending fruits
+function startAction() {
+    
+    // generate a fruit
+    $("#fruit1").show();
+    chooseFruit(); // choose a random fruit
+    $("#fruit1").css({
+        "left" : Math.round(550*Math.random()),
+        "top" : -50
+    });
+    
+    // generate a random step
+    step = 1+Math.round(5*Math.random()); // change step
+    
+    // Move fruit down by one step every 10ms
+    action = setInterval(function(){
+        $("#fruit1").css('top', $("#fruit1").position().top + step);
+        
+        // check if fruit is to low
+        if($("#fruit1").position().top > $("#fruitsContainer").height()){
+            // check if we have trials left
+            if (trialsleft > 1) {
+                // generate a fruit
+                $("#fruit1").show();
+                chooseFruit(); // choose a random fruit
+                $("#fruit1").css({
+                "left" : Math.round(550*Math.random()),
+                "top" : -50
+        });
+    
+        // generate a random step
+        step = 1+Math.round(5*Math.random()); // change step
+                
+                // reduce trials by one
+                trialsleft --;
+                
+                // populate  trialsLeft box
+                addHearts();
+                
+                } else { // game over
+                    playing = false;
+                    $("#startreset").html("Start Game");
+                    $("#gameOver").show();
+                    $("#gameOver").html('<p>Game Over!</p><p>Your score is ' + score + '</p>');
+                    $("#trialsleft").hide();
+                    stopAction();
+                }
+            }
+        }, 10);
+    
+}
+
+// generate a random fruit
+function chooseFruit() {
+    $("#fruit1").attr('src' ,'images/'+ fruits[Math.round(8*Math.random())] +'.png');
+}
+
+// stop dropping fruits
+function stopAction() {
+    clearInterval(action);
+    $("#fruit1").hide();
 }
 
 /* Whole code */
