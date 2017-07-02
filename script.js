@@ -6,40 +6,58 @@ var action; // used for setInterval
 var fruits = ["apple", "banana", "cherries", "grapes", "mango", "orange", "peach", "pear", "watermelon"];
 
 $(function(){
-    // click on start reset button
-    $("#startreset").click(function(){
-    // are we playing?
-        // yes
-        if (playing == true) {
-            // reload page
-            location.reload();
-        } else { 
-        // no
-        playing = true; // game iniciated
-        // set score to 0
-        score = 0;
-        $("#scorevalue").html(score);
-            
-        // show trials left
-        $("#trialsleft").show();
-        trialsleft = 3;
-        addHearts();
-            
-        // hide game over box
-        $("#gameOver").hide();
-        
-        // change button text to reset game
-        $("#startreset").html("Reset Game");
-            
-        // start sending fruits
-        startAction();    
-            
-        }
-    })
+// click on start reset button
+$("#startreset").click(function(){
+// are we playing?
+    // yes
+    if (playing == true) {
+        // reload page
+        location.reload();
+    } else { 
+    // no
+    playing = true; // game iniciated
+    // set score to 0
+    score = 0;
+    $("#scorevalue").html(score);
+
+    // show trials left
+    $("#trialsleft").show();
+    trialsleft = 3;
+    addHearts();
+
+    // hide game over box
+    $("#gameOver").hide();
+
+    // change button text to reset game
+    $("#startreset").html("Reset Game");
+
+    // start sending fruits
+    startAction();    
+
+    }
+});
     
+// slice a fruit
+$("#fruit1").mouseover(function(){
+    score++;
+    $("#scorevalue").html(score); // update score
     
+    // play sound - 2 nacina js in jQuery
+    // document.getElementById("slicesound").play(); 
+    $("#slicesound")[0].play();
     
-}); // enf of ready function
+    // stop fruit 
+    clearInterval(action);
+    
+    //and hide it
+    $("#fruit1").hide("explode", 150);
+    
+    // send new fruit
+    setTimeout(startAction, 400);
+    
+});
+    
+
 
 
 function addHearts() {
@@ -111,6 +129,12 @@ function stopAction() {
     clearInterval(action);
     $("#fruit1").hide();
 }
+    
+    
+
+    
+    
+}); // enf of ready function
 
 /* Whole code */
 // click on start reset button
